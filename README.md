@@ -9,9 +9,13 @@ Press FT in normal mode.
 How do I install it?
 --------------------
 Install [vundle](http://github.com/gmarik/vundle). Then add
+
     Bundle 'meredrica/vim-latex-german'
+
 to your vimrc and run
+
     :BundleInstall'
+
 Your Code Sucks
 ---------------
 Well this is my first vim plugin, so how about you [fork](https://github.com/meredrica/vim-latex-german/fork) and fix it and send me a pull request?
