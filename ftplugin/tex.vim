@@ -1,35 +1,26 @@
 " ------------------------------------------------------------------------------
 " Exit when your app has already been loaded (or "compatible" mode set)
-if exists("b:did_ftplugin") || exists("g:loaded_latex_german_hack") || &cp
+if exists("b:did_ftplugin") || exists("g:loaded_latex_german") || &cp
   finish
 endif
-let g:loaded_latex_german_hack= 123 " your version number
+let g:loaded_latex_german= 123 " your version number
 let s:keepcpo           = &cpo
 set cpo&vim
 
-" Public Interface:
-" Appfuntion: is a funtion you expect your users to call
-" PickAMap: some sequence of characters that will run your Appfuntion
-" Repeat these three lines as needed for multiple funtions which will
-" be used to provide an interface for the user
-"
 if !hasmapto('<Plug>LaTeXGermanToggle')
-  map <unique> <Leader>FT <Plug>LaTeXGermanToggle
+  nmap <silent> <unique> FT :call <SID>LaTeXGermanToggle()<CR>
+
 endif
 
-" Global Maps:
-"
-map <silent> <unique> <script> <Plug>LaTeXGermanToggle
- \ :set lz<CR>:call <SID>LaTeXGermanToggle<CR>:set nolz<CR>
+let b:latex_german_fixed = 1
 
 fun! s:LaTeXGermanToggle()
-	let b:latex_german_hack_fixed = exists('b:latex_german_hack_fixed')? b:latex_german_hack_fixed : 0
-	if b:latex_german_hack_fixed
+	if b:latex_german_fixed
 		call s:NoLaTeXGermanFix()
 	else
 		call s:LaTeXGermanFix()
 	endif
-	let b:latex_german_hack_fixed=!b:latex_german_hack_fixed
+	let b:latex_german_fixed=!b:latex_german_fixed
 endfun
 
 fun! s:LaTeXGermanFix()
@@ -57,16 +48,11 @@ endfun
 fun! s:LaTeXGerman()
 	set iskeyword+=:
 	set filetype=tex
-	" TODO check how to only set it when it is not there yet
 	set spelllang+=de
 endfun
 
-" autocmds so we actually do something
-augroup LaTeXGermanFix
-	au!
-	au BufNewFile * :call s:LaTeXGerman()
-	au BufRead * :call s:LaTeXGerman()
-augroup END
+" autocmd so we are loaded
+au BufEnter *.tex,<tex> call <SID>LaTeXGerman()
 
 " ------------------------------------------------------------------------------
 let &cpo= s:keepcpo
