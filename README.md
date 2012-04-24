@@ -14,7 +14,7 @@ Install [vundle](http://github.com/gmarik/vundle). Then add
 
 to your vimrc and run
 
-    :BundleInstall'
+    :BundleInstall
 
 Your Code Sucks
 ---------------
